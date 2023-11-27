@@ -36,11 +36,12 @@ let () =
   let g3 = gmap graph f in
 
   let g4 = add_arc g3 2 4 10000 in
-  let g4_2 = gmap g4 string_of_int in
+  let _g4_2 = gmap g4 string_of_int in
 
-  (* Rewrite the graph that has been read. *)
-  let () = write_file outfile g4_2 in
-
+  let () = export (outfile^".dot") graph in
   
-  ()
+  (* Rewrite the graph that has been read. *)
+  (*let () = write_file outfile g5 in
+  *)
+  ();
 
