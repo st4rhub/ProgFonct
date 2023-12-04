@@ -25,28 +25,13 @@ maximal flow value ?
 
 what to do:
 fonction qui cherche un chemin (augmentant)
+have to do flow of graph, enlever de in arcs
+
 *)
 
 
 (*Takes a string graph and changes the int label into a tuple label with (flow=0, capacity=a.lbl) *)
 let initialize_graph gr = e_fold gr (fun g x-> new_arc g {src=x.tgt;tgt=x.src;lbl="0"}) gr;;
-
-(*
-
-
-
-
-
-(*calculates the flow coming out of the source*)
-let flow_of_graph gr src =  (*we could test to see if the node actually exists*)
-  let list_of_arcs = out_arcs gr src in (*is the list of arcs coming out of the source*)
-  let f acc arc = acc + fst (arc.lbl) in  
-  List.fold_left f 0 list_of_arcs (*starts from 0 and adds the flow of each arc*)
-;;
-
-
-
-*)
 
 
 (*on donne la liste des arcs qui vont de gauche à droite /A PATH/ et on renvoie l'écart minimum*)
@@ -63,24 +48,30 @@ let add_flow gr id1 id2 n =
   let graph_aux = add_arc gr id1 id2 (-n) in 
   add_arc graph_aux id2 id1 n ;;
 
+(*calculates the flow coming out of the source, HAVE TO TAKE OUT IN ARCS*)
+let flow_of_graph gr src =  (*we could test to see if the node actually exists*)
+  let list_of_arcs = out_arcs gr src in (*is the list of arcs coming out of the source*)
+  let f acc arc = acc + arc.lbl in  
+  List.fold_left f 0 list_of_arcs (*starts from 0 and adds the flow of each arc*)
+;;
 
 
-(*out arcs permet de recup les outgoing arcs of node*)
+
+
+
 
 
 (*
 let finds_augmenting_path gr src dst = ()
 ;;*)
 
-
-(*should go through arcs and find all the nodes *)
-
+(*recup les neighbors of a node: returns id list*)
 let getNeighbors gr node =
   let f acc arc = [arc.tgt]@acc in 
   List.fold_left f [] (out_arcs gr node) 
 ;;
 
-
+(*prints list of int*)
 let printNeighbors list = 
   List.iter (fun x -> Printf.printf "%d %!" x) list
 ;;
