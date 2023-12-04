@@ -125,7 +125,7 @@ let export path graph =
   rankdir=LR \n;
   node [shape = circle]; \n" ;
 
-  (* Write all arcs *)
+  (* Write all arcs with the dot format*)
   let _ = e_fold graph (fun _ arc -> fprintf ff "\n %d -> %d [label = \"%s\"]\n" arc.src arc.tgt arc.lbl) () in
   
   fprintf ff "\n}\n" ;

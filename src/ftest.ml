@@ -1,6 +1,8 @@
 open Gfile
 open Tools
-    
+open Fordfulkerson
+
+
 let () =
 
   (* Check the number of command-line arguments *)
@@ -36,12 +38,41 @@ let () =
   let g3 = gmap graph f in
 
   let g4 = add_arc g3 2 4 10000 in
-  let _g4_2 = gmap g4 string_of_int in
+  let g4_2 = gmap g4 string_of_int in
 
-  let () = export (outfile^".dot") graph in
+
+(*  let g5_1 = add_flow g5 0 3 5 in 
+
+  let g5_2 = add_flow g5_1 0 2 2 in
+
+  let x = flow_of_graph g5_2 0 in
+  Printf.printf "flow of graph: %d \n%!" x;
+  Printf.printf "ecart min: %d \n%!" (min_ecart [{ src= 0 ;tgt= 2 ;lbl= (15,20) };{ src= 0 ;tgt= 3 ;lbl= (0,10)}]);
+
+  let g6 = convert_to_graph g5_2 in*)
+
+  let graph_init_string = initialize_graph g4_2 in (*graphe init en string*)
+  let graph_init = gmap graph_init_string int_of_string in 
+
+
+  
+  let g1 = add_flow graph_init 0 3 5 in 
+  let g2 = add_flow g1 0 2 2 in
+  
+  
+  Printf.printf "ecart min: %d \n%!" (min_ecart [{ src= 0 ;tgt= 2 ;lbl=15};{ src= 2 ;tgt= 3 ;lbl=8}]);
+  
+  let g3 = getNeighbors g2 0 in
+  let _g4 = printNeighbors g3 in   
+
+
+
+  let graph_final = gmap g2 string_of_int in (*graph final en string qu'on renvoie*)
+  let () = export (outfile^".dot") graph_final in
   
   (* Rewrite the graph that has been read. *)
   (*let () = write_file outfile g5 in
   *)
   ();
+
 
