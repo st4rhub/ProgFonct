@@ -31,7 +31,7 @@ let () =
   (* Open file *)
   let graph = from_file infile in
   
-  let _g2 = clone_nodes graph in
+ (*let _g2 = clone_nodes graph in
   
   (*let f x = "."^x^"." in*)
   let f = int_of_string in
@@ -40,17 +40,20 @@ let () =
   let g4 = add_arc g3 2 4 10000 in
   let g4_2 = gmap g4 string_of_int in
 
-(*
+
   let x = flow_of_graph g5_2 0 in
   Printf.printf "flow of graph: %d \n%!" x;
-  *)
+  
+  
+  let graph_init_string = initialize_graph g4_2 in (*graphe init en string*)*)
 
-  let graph_init_string = initialize_graph g4_2 in (*graphe init en string*)
+  let graph_init_string = initialize_graph graph in 
+
   let graph_init = gmap graph_init_string int_of_string in 
 
-
+  let g2 = fordfulkerson graph_init 0 3 in
   
-  let g1 = add_flow graph_init 0 3 5 in 
+  (*let g1 = add_flow graph_init 0 3 5 in 
   let g2 = add_flow g1 0 2 2 in
   
   
@@ -58,12 +61,15 @@ let () =
   
   let g3 = getNeighbors g2 0 in
   let _g4 = printNeighbors g3 in   
+*)
 
 
 
-  let graph_final = gmap g2 string_of_int in (*graph final en string qu'on renvoie*)
-  let () = export (outfile^".dot") graph_final in
+  Printf.printf "final flow lets go : %d" (fst g2);
   
+  let graph_final = gmap (snd g2) string_of_int in (*graph final en string qu'on renvoie*)
+  
+  let () = export (outfile^".dot") graph_final in
   (* Rewrite the graph that has been read. *)
   (*let () = write_file outfile g5 in
   *)
