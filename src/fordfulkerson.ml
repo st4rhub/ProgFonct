@@ -3,11 +3,10 @@ open Tools
 
 
 (*
-define a source and dest, pris en argument, par défaut 0 et 5
+define a source and dest, pris en argument, par défaut 0 et 5 DONE
 
 initialize_graph string graph -> tuple graph DONE
-  changer le label en tuple avec how full it is right now and the max capacity
-  set all edges' capacity à 0
+  add arcs that go the other way at capacity 0
 
 the loop: (while there is an augmenting path)
 
@@ -20,7 +19,7 @@ min_ecart arc list -> min int DONE
 ajouter l'ecart a chaque arc du chemin (add_arc)
 
 display final graph
-maximal flow value ?
+maximal flow value
 
 
 what to do:
@@ -43,7 +42,7 @@ let initialize_graph gr = e_fold gr (fun g x-> new_arc g {src=x.tgt;tgt=x.src;lb
 
 (* On donne la liste des arcs qui vont de gauche à droite /A PATH/ et on renvoie l'écart minimum*)
 let min_ecart list_arc = 
-  if list_arc == [] then failwith "liste arcs vide" else 
+  if list_arc == [] then failwith "liste arcs vide" else 								(*si liste arc vide: path vide et alors quoi ?*)
   let acc = (List.hd list_arc).lbl in 
   let rec aux list_arc acc = 
     match list_arc with
@@ -65,7 +64,7 @@ let add_flow gr id1 id2 n =
 
   
 (*calculates the flow coming out of the source, HAVE TO TAKE OUT IN ARCS*)
-let flow_of_graph gr src =  (*we could test to see if the node actually exists*)
+let flow_of_graph gr src =                 														(*we could test to see if the node actually exists*)
   let list_of_arcs = out_arcs gr src in (*is the list of arcs coming out of the source*)
   let f acc arc = acc + arc.lbl in  
     List.fold_left f 0 list_of_arcs (*starts from 0 and adds the flow of each arc*)
@@ -112,15 +111,14 @@ let findAugmentingPath myGraph sourceid sinkid =
 
 	let rec findAugmentingPath2 sourceid2 precedingPath =
 
-    (*source <-> sourceid2
-       sink <-> sinkid*)
+	
 
 		(*Condidtion used to filter the list of edges : not already in the path*)
 		let cond x =
 			(*Creates a list with only the destinations *)
       (* Basically we don't want to go to a place that's already been visited *)
 			let b = List.map (fun arc -> arc.tgt) precedingPath in 
-			( (not (List.mem x.tgt b)) && (not (x.tgt=sourceid)) && (x.lbl > 0) && ((getOppositeArc myGraph x).lbl>=0)) 
+			( (not (List.mem x.tgt b)) && (not (x.tgt=sourceid)) && (x.lbl > 0) && ((getOppositeArc myGraph x).lbl>=0)) (*useless double condition , remove the opp arc one*)
 		in
 
     (*TEST A ENLEVER !!!!!!!!!!!!!!!!!!!!*)
