@@ -24,8 +24,8 @@ let () =
   and outfile = Sys.argv.(4)
   
   (* These command-line arguments are not used for the moment. *)
-  and source = int_of_string Sys.argv.(2)
-  and sink = int_of_string Sys.argv.(3)
+  and _source = int_of_string Sys.argv.(2)
+  and _sink = int_of_string Sys.argv.(3)
   in
 
   (* Open file *)
@@ -41,17 +41,15 @@ let () =
   let g4_2 = gmap g4 string_of_int in
 
 
-  let x = flow_of_graph g5_2 0 in
-  Printf.printf "flow of graph: %d \n%!" x;
+  let x = flow_of_graph_init_stringgraph g5_2 0 in
+  Printf.printf "flow of graph: %d \n%!" x;*)
   
-  
-  let graph_init_string = initialize_graph g4_2 in (*graphe init en string*)*)
 
   let graph_init_string = initialize_graph graph in (*ajoute arcs dans l'autre sens*)
 
   let graph_init = gmap graph_init_string int_of_string in (*convert to int*)
 
-  let g2 = fordfulkerson graph_init source sink in
+  (*let g2 = fordfulkerson graph_init source sink in
   
   (*let g1 = add_flow graph_init 0 3 5 in 
   let g2 = add_flow g1 0 2 2 in
@@ -68,7 +66,11 @@ let () =
   Printf.printf "final flow lets go : %d" (fst g2); (*prints flow*)
   
   let graph_final = gmap (snd g2) string_of_int in (*graph final en string*)
+  *)
   
+  let graph_final = gmap graph_init string_of_int in
+
+
   let () = export (outfile^".dot") graph_final in
   (* Rewrite the graph that has been read. *)
   (*let () = write_file outfile g5 in

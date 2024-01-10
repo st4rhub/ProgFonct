@@ -72,22 +72,10 @@ let flow_of_graph gr src =                 														(*we could test to see 
 
 
 
-
-
-
-
-(*recup les neighbors of a node: returns 'a arc list*)
+(*recup les neighbors of a node: returns id list*)
 let getNeighbors gr node =
-  let f acc arc = [arc]@acc in 
+  let f acc arc = [arc.tgt]@acc in 
     List.fold_left f [] (out_arcs gr node)
-;;
-
-(* Takes an arc a->b and finds the opposite arc b->a with the residual values *)
-let getOppositeArc gr arc = 
-  let neighb = getNeighbors gr arc.tgt in 
-    let opp = List.find (fun x-> x.tgt = arc.src) neighb in
-    Printf.printf "opposite arc : (%d, %d, %d) \n" opp.src opp.tgt opp.lbl;
-    opp
 ;;
 
 
@@ -99,9 +87,9 @@ let printNeighbors list =
 let rec printPath path =
   Printf.printf "Printing path.....\n%!";
   match path with
-  |[] -> ()
-  |x::rest -> Printf.printf "(%d, %d)\n%!" x.src x.tgt; printPath rest;
-  Printf.printf "End of path....\n%!";;
+  |[] -> Printf.printf "End of path....\n%!"
+  |x::rest -> Printf.printf "(%d, %d)\n%!" x.src x.tgt; printPath rest
+  ;;
 
 
 
@@ -149,7 +137,7 @@ let findAugmentingPath myGraph sourceid sinkid =
 			(*Else we search all correct edges (non null and non already in the path) 
 			amongst all those starting from source*)
 			begin						
-				let arcsCorrects = List.filter cond (getNeighbors myGraph sourceid2) in	
+				let arcsCorrects = List.filter cond (out_arcs myGraph sourceid2) in	
 
         Printf.printf "im in augmenting path\n \n \n %!";
         (*Printf.printf "first of arcscorrects : (%d, %d)\n" (List.hd arcsCorrects).src (List.hd arcsCorrects).tgt;*)

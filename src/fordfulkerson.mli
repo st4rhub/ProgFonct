@@ -12,7 +12,8 @@ val add_flow : int graph -> id -> id -> int -> int graph
 
 (*get rid of that*)
 (*val flow_of_graph : int graph -> id -> int*)
-val getNeighbors : int graph -> id -> int arc list
+val getNeighbors : int graph -> id -> id list
+
 val printNeighbors : id list -> unit
 val findAugmentingPath : int graph -> id -> id -> int arc list
 val modifyResidual : int graph -> int arc list -> int graph
