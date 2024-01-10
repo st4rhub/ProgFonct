@@ -1,22 +1,30 @@
 open Graph
 
-(*Takes a string graph and changes the int label into a tuple label with (flow=0, capacity=a.lbl)
-   Works *)
-val initialize_graph : string graph -> string graph
+(*prints list of id*)
+val printIdList : id list -> unit
 
-(*Takes arc list (a path), renvoie lecart minimum*)
+(*prints list of arcs*)
+val printPath : int arc list -> unit
+
+
+
+
+(*takes arc list (a path), returns the minimum ecart*)
 val min_ecart : int arc list -> int
 
-(*Takes graph node1 node2 n, adds n to the flow from id1 to id2*)
+(*takes graph node1 node2 n, adds n to the flow from id1 to id2*)
 val add_flow : int graph -> id -> id -> int -> int graph
 
-(*get rid of that*)
-(*val flow_of_graph : int graph -> id -> int*)
+(*takes graph path minecart and takes minecart out of all arc in path*)
+val updateGraph : int graph -> int arc list -> int -> int graph
+
+(*kinda meh have to fix*)
 val getNeighbors : int graph -> id -> id list
 
-val printNeighbors : id list -> unit
+
+
+
 val findAugmentingPath : int graph -> id -> id -> int arc list
-val modifyResidual : int graph -> int arc list -> int graph
 val fordfulkerson : int graph -> id -> id -> (int*(int graph))
 
 

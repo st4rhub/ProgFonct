@@ -30,48 +30,35 @@ let () =
 
   (* Open file *)
   let graph = from_file infile in
+    
+  let graph_init = gmap graph int_of_string in (*convert to int*)
+
+ 
   
- (*let _g2 = clone_nodes graph in
+  (*
+  let g1 = add_flow graph_init 0 2 5 in 
+  let g2 = add_flow g1 0 2 5 in
+  *)
   
-  (*let f x = "."^x^"." in*)
-  let f = int_of_string in
-  let g3 = gmap graph f in
+  (*
+  let g1 = modifyResidual graph_init [{ src= 0 ;tgt= 2 ;lbl=4};{ src= 2 ;tgt= 3 ;lbl=5}] in 
+  Printf.printf "ecart min: %d \n%!" (min_ecart [{ src= 0 ;tgt= 2 ;lbl=2};{ src= 2 ;tgt= 3 ;lbl=8};{ src= 4 ;tgt= 3 ;lbl=3}]);
+  *)
 
-  let g4 = add_arc g3 2 4 10000 in
-  let g4_2 = gmap g4 string_of_int in
-
-
-  let x = flow_of_graph_init_stringgraph g5_2 0 in
-  Printf.printf "flow of graph: %d \n%!" x;*)
-  
-
-  let graph_init_string = initialize_graph graph in (*ajoute arcs dans l'autre sens*)
-
-  let graph_init = gmap graph_init_string int_of_string in (*convert to int*)
+  (*
+  let neighbors = getNeighbors graph_init 4 in
+  printNeighbors neighbors;
+  *)
 
   (*let g2 = fordfulkerson graph_init source sink in
-  
-  (*let g1 = add_flow graph_init 0 3 5 in 
-  let g2 = add_flow g1 0 2 2 in
-  
-  
-  Printf.printf "ecart min: %d \n%!" (min_ecart [{ src= 0 ;tgt= 2 ;lbl=15};{ src= 2 ;tgt= 3 ;lbl=8}]);
-  
-  let g3 = getNeighbors g2 0 in
-  let _g4 = printNeighbors g3 in   
-*)
-
-
-
   Printf.printf "final flow lets go : %d" (fst g2); (*prints flow*)
-  
   let graph_final = gmap (snd g2) string_of_int in (*graph final en string*)
   *)
   
+
   let graph_final = gmap graph_init string_of_int in
 
-
-  let () = export (outfile^".dot") graph_final in
+  let () = export (outfile^".dot") graph_final; write_file outfile graph_final in
   (* Rewrite the graph that has been read. *)
   (*let () = write_file outfile g5 in
   *)
