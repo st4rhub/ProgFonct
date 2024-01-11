@@ -4,7 +4,7 @@ This GitHub repositery contains the Minimal acceptable project for the Functiona
 
 ## Features
 
--   Returns the maximum flow of a graph g, given the sink and target nodes
+-   Returns the maximum flow of a graph, given the sink and target nodes
 -   Writes what the final "max flow" graph looks like into an svg file, titled _outfile.svg_
 
 ## Installation
@@ -34,8 +34,3 @@ In case of trouble with the VSCode extension (e.g. the project does not build, t
 ## Usage
 
 To change the input graph, sink node, or target node, modify their values in Makefile lines 3-5 (some example graphs are given in the _graphs_ folder).
-
-```
-
-
-```
