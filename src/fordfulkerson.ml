@@ -10,9 +10,9 @@ let rec _printPath path =
 ;;
 
 
-(*takes arc list (a path), returns the minimum ecart*)
+(*takes arc list, returns the min ecart*)
 let min_ecart list_arc = 
-		let acc = (List.hd list_arc).lbl in (*normalement on na pas de path vide*)
+		let acc = (List.hd list_arc).lbl in
 		let rec min_ecart_rec list_arc acc = 
 			match list_arc with
 				| [] -> acc
@@ -29,7 +29,7 @@ let add_flow gr id1 id2 n =
   add_arc graph_aux id2 id1 n 
 ;;
 
-(*takes graph path minecart and takes minecart out of all arc in path*)
+(*takes graph path min ecart and takes min ecart out of all arc in path, returns updated graph*)
 let updateGraph gr path minEcart = 
 	let rec updateGraph_rec gr path =
 		match path with
@@ -82,8 +82,6 @@ let findAugmentingPath myGraph sourceid sinkid =
 let finalpath_reversed = findAugmentingPath_rec sourceid [] in 
 List.rev finalpath_reversed 
 ;;
-
-
 
 
 
