@@ -105,7 +105,12 @@ let fordfulkerson originalGraph sourceid sinkid =
 
 
 let flowgraph_from_ecart gr_init gr_ecart =
-	let final_graph = empty_graph in 
-	let f graph a = new_arc graph {src=a.src;tgt=a.tgt;lbl=(Option.get (find_arc gr_ecart a.tgt a.src)).lbl} in 
-	e_fold gr_init f final_graph
+	let ecart_value = (Option.get (find_arc gr_ecart a.src a.tgt)).lbl in
+	let f graph a = 
+		if a.lbl < ecart_value then 
+			add_arc graph a.src a.tgt (-a.lbl) 
+		else
+			add_arc graph a.src a.tgt (-ecart_value)
+		in
+	e_fold gr_init f gr_init
 ;;
