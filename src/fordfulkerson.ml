@@ -2,11 +2,11 @@ open Graph
 open Tools
 
 (*prints list of arcs*)
-let rec printPath path =
+let rec _printPath path =
   Printf.printf "Printing path.....\n%!";
   match path with
   |[] -> Printf.printf "End of path....\n%!"
-  |x::rest -> Printf.printf "(%d, %d)\n%!" x.src x.tgt; printPath rest
+  |x::rest -> Printf.printf "(%d, %d)\n%!" x.src x.tgt; _printPath rest
 ;;
 
 
@@ -46,7 +46,7 @@ let isCorrectArc sourceid precedingPath arc =
 ;;
 
 
-let findAugmentingPath_other myGraph sourceid sinkid = 	
+let findAugmentingPath myGraph sourceid sinkid = 	
 
 	let rec findAugmentingPath_rec sourceid2 precedingPath =
 
@@ -78,7 +78,6 @@ let findAugmentingPath_other myGraph sourceid sinkid =
 	in
 
 	
-	
 
 let finalpath_reversed = findAugmentingPath_rec sourceid [] in 
 List.rev finalpath_reversed 
@@ -92,11 +91,10 @@ let fordfulkerson originalGraph sourceid sinkid =
 	let rec inner_ford_fulk gr source sink out_flow =
 		try
 			(* As long as we find a path we make one more iteration with the new graph and the augmented flow *)
-			let aPath = findAugmentingPath_other gr source sink in	
+			let aPath = findAugmentingPath gr source sink in	
 			let minEcart = min_ecart aPath in
 			let updatedGraph = updateGraph gr aPath minEcart in
 
-			(*on fait un cas pour path =[] ?? *)
 			inner_ford_fulk updatedGraph source sink (out_flow + minEcart)
 		with
 			(* When finding a path is no longer possible we return the final flow *)
@@ -105,9 +103,9 @@ let fordfulkerson originalGraph sourceid sinkid =
 	inner_ford_fulk originalGraph sourceid sinkid 0
 ;;
 
-(*  let f1 gr a = new_arc gr {src=a.src;tgt=a.tgt;lbl=(f a.lbl)}   in   (*prend b graphe et a arc et rend b graph*) *)
 
 let flowgraph_from_ecart gr_init gr_ecart =
 	let final_graph = empty_graph in 
-	let f graph a = new_arc graph {src=a.src;tgt=a.tgt;lbl=(Option.get (find_arc gr_ecart a.tgt a.src)).lbl} 
-in e_fold gr_init f final_graph;;
+	let f graph a = new_arc graph {src=a.src;tgt=a.tgt;lbl=(Option.get (find_arc gr_ecart a.tgt a.src)).lbl} in 
+	e_fold gr_init f final_graph
+;;

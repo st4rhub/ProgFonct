@@ -39,8 +39,11 @@ let () =
   (*Print flow*)
   Printf.printf "Final Flow : %d" (fst result); 
 
+
+  let graphFlow = flowgraph_from_ecart graph_init (snd result) in
+
   (*Convert final int graph to string graph*)
-  let graph_final = gmap (snd result) string_of_int in
+  let graph_final = gmap graphFlow string_of_int in
   
   (*Write graph final in outfile and export it into .dot to see the graph*)
   let () = write_file outfile graph_final; export (outfile^".dot") graph_final; in
