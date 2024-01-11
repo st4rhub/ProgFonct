@@ -1,14 +1,8 @@
 .PHONY: all build format edit demo clean
 
 src?=0
-<<<<<<< HEAD
-dst?=7
-graph?=graph10.txt
-=======
 dst?=2
 graph?=graph2.txt
->>>>>>> 35f0b50a243732d73406991ddb3fcb03529d929a
-
 all: build
 
 build:
