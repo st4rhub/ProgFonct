@@ -2,7 +2,7 @@
 
 src?=0
 dst?=2
-graph?=graph1.txt
+graph?=graph3.txt
 
 all: build
 
@@ -21,7 +21,7 @@ demo: build
 	@echo "\n   ⚡  EXECUTING  ⚡\n"
 	./ftest.exe graphs/${graph} $(src) $(dst) outfile
 	@echo "\n   🥁  RESULT (content of outfile)  🥁\n"
-	# @cat outfile COMMENTED
+	@cat outfile
 	@dot -Tsvg outfile.dot > outfile.svg
 
 clean:

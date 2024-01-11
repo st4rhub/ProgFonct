@@ -19,49 +19,32 @@ let () =
 
 
   (* Arguments are : infile(1) source-id(2) sink-id(3) outfile(4) *)
-  
   let infile = Sys.argv.(1)
   and outfile = Sys.argv.(4)
   
   (* These command-line arguments are not used for the moment. *)
-  and _source = int_of_string Sys.argv.(2)
-  and _sink = int_of_string Sys.argv.(3)
+  and source = int_of_string Sys.argv.(2)
+  and sink = int_of_string Sys.argv.(3)
   in
 
   (* Open file *)
   let graph = from_file infile in
     
-  let graph_init = gmap graph int_of_string in (*convert to int*)
+  (*Convert string graph to int graph*)
+  let graph_init = gmap graph int_of_string in
 
- 
+  (*Apply FordFulkerson to graph*)
+  let result = fordfulkerson graph_init source sink in
+
+  (*Print flow*)
+  Printf.printf "Final Flow : %d" (fst result); 
+
+  (*Convert final int graph to string graph*)
+  let graph_final = gmap (snd result) string_of_int in
   
-  (*
-  let g1 = add_flow graph_init 0 2 5 in 
-  let g2 = add_flow g1 0 2 5 in
-  *)
-  
-  (*
-  let g1 = modifyResidual graph_init [{ src= 0 ;tgt= 2 ;lbl=4};{ src= 2 ;tgt= 3 ;lbl=5}] in 
-  Printf.printf "ecart min: %d \n%!" (min_ecart [{ src= 0 ;tgt= 2 ;lbl=2};{ src= 2 ;tgt= 3 ;lbl=8};{ src= 4 ;tgt= 3 ;lbl=3}]);
-  *)
+  (*Write graph final in outfile and export it into .dot to see the graph*)
+  let () = write_file outfile graph_final; export (outfile^".dot") graph_final; in
 
-  (*
-  let neighbors = getNeighbors graph_init 4 in
-  printNeighbors neighbors;
-  *)
-
-  (*let g2 = fordfulkerson graph_init source sink in
-  Printf.printf "final flow lets go : %d" (fst g2); (*prints flow*)
-  let graph_final = gmap (snd g2) string_of_int in (*graph final en string*)
-  *)
-  
-
-  let graph_final = gmap graph_init string_of_int in
-
-  let () = export (outfile^".dot") graph_final; write_file outfile graph_final in
-  (* Rewrite the graph that has been read. *)
-  (*let () = write_file outfile g5 in
-  *)
   ();
 
 

@@ -1,32 +1,6 @@
 open Graph
 open Tools
 
-
-(*
-define a source and dest, pris en argument, par défaut 0 et 5 DONE
-
-initialize_graph string graph -> tuple graph DONE
-  add arcs that go the other way at capacity 0
-
-the loop: (while there is an augmenting path)
-
-finds_augmenting_path tuple graph -> src -> dst -> 'a arc list 
-  an algorithm BFS that looks for augmenting path from s to d
-
-min_ecart arc list -> min int DONE 
-  calculer l'écart pour chaque edge et prendre le min
-
-ajouter l'ecart a chaque arc du chemin (add_arc)
-
-display final graph
-maximal flow value
-*)
-
-(*prints list of id*)
-let printIdList list = 
-  List.iter (fun x -> Printf.printf "%d %!" x) list
-;;
-
 (*prints list of arcs*)
 let rec printPath path =
   Printf.printf "Printing path.....\n%!";
@@ -34,8 +8,6 @@ let rec printPath path =
   |[] -> Printf.printf "End of path....\n%!"
   |x::rest -> Printf.printf "(%d, %d)\n%!" x.src x.tgt; printPath rest
 ;;
-
-
 
 
 (*takes arc list (a path), returns the minimum ecart*)
@@ -48,7 +20,6 @@ let min_ecart list_arc =
 		in 
 		min_ecart_rec list_arc acc
 ;;
-
 
 
 
@@ -67,16 +38,6 @@ let updateGraph gr path minEcart =
 	in
 	updateGraph_rec gr path
 ;;
-
-
-
-(*returns neighbors of node, only the people coming in and not out: returns id list*)
-let getNeighbors gr node =
-  let f acc arc = [arc.tgt]@acc in 
-  List.fold_left f [] (out_arcs gr node)
-;;
-
-
 
 
 
@@ -134,9 +95,7 @@ let findAugmentingPath myGraph sourceid sinkid =
 			end
 	in
 
-  
-	
-	
+
 
 	(*Call of the intern function with a null accumulator*)
 	let finalpath = findAugmentingPath2 sourceid [] in 
@@ -146,23 +105,21 @@ let findAugmentingPath myGraph sourceid sinkid =
 
 
 
+(*takes the path we went through and an arc we're testing, returns true if we can go there*)
+let isCorrectArc sourceid precedingPath arc = 
+		let b = [sourceid]@List.map (fun x -> x.tgt) precedingPath in (*list of nodes we go through*)
+		((not (List.mem arc.tgt b)) && (arc.lbl > 0)) 
+;;
+
 
 let findAugmentingPath_other myGraph sourceid sinkid = 	
 
 	let rec findAugmentingPath_rec sourceid2 precedingPath =
 
-	
-		(*Condition used to filter the list of destinations : we don't want to go to a place that we have already visited*)
-		let cond x =
-			let b = List.map (fun arc -> arc.tgt) precedingPath in 
-			((not (List.mem x.tgt b)) && (not (x.tgt=sourceid)) && (x.lbl > 0)) 
-		in
-
 		(*Function to test all arcs that are proven to be correct*)
 		let rec tester_tous_les_arcs arclist =
 			match arclist with
-					(*If the list is empty we cannot find a path*)
-					| [] -> raise Not_found 
+					| [] -> raise Not_found   					(*If the list is empty we cannot find a path*)
 					(*Else we try to find paths for all correct edges 
 					and we stop when we have found a correct path*)
 					| arc::rest -> 
@@ -174,19 +131,14 @@ let findAugmentingPath_other myGraph sourceid sinkid =
 						end
 		in
 
-		(*If the source is equal to the sink then it's finished*)
+		
 		match (sourceid2,sinkid) with
-		| (a,b) when a=b -> precedingPath
+		| (a,b) when a=b -> precedingPath   (*If source=sink, we found path and we return it*)
 		| _ -> 
 			(*Else we search all correct edges (non null and non already in the path) 
 			amongst all those starting from source*)
 			begin						
-				let arcsCorrects = List.filter cond (out_arcs myGraph sourceid2) in	
-
-				Printf.printf "im in augmenting path\n \n \n %!";
-				(*Printf.printf "first of arcscorrects : (%d, %d)\n" (List.hd arcsCorrects).src (List.hd arcsCorrects).tgt;*)
-				printPath arcsCorrects;
-					(*And we try to find a complete path with all of them*)
+				let arcsCorrects = List.filter (isCorrectArc sourceid2 precedingPath) (out_arcs myGraph sourceid2) in	
 				tester_tous_les_arcs arcsCorrects		
 			end
 	in
@@ -206,7 +158,7 @@ let fordfulkerson originalGraph sourceid sinkid =
 	let rec inner_ford_fulk gr source sink out_flow =
 		try
 			(* As long as we find a path we make one more iteration with the new graph and the augmented flow *)
-			let aPath = findAugmentingPath gr source sink in	
+			let aPath = findAugmentingPath_other gr source sink in	
 			let minEcart = min_ecart aPath in
 			let updatedGraph = updateGraph gr aPath minEcart in
 
