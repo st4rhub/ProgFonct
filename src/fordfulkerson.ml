@@ -39,7 +39,6 @@ let updateGraph gr path minEcart =
 	updateGraph_rec gr path
 ;;
 
-
 (*takes the path we went through and an arc we're testing, returns true if we can go there*)
 let isCorrectArc sourceid precedingPath arc = 
 		let b = [sourceid]@List.map (fun x -> x.tgt) precedingPath in (*list of nodes we go through*)
