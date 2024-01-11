@@ -104,3 +104,10 @@ let fordfulkerson originalGraph sourceid sinkid =
 	in 
 	inner_ford_fulk originalGraph sourceid sinkid 0
 ;;
+
+(*  let f1 gr a = new_arc gr {src=a.src;tgt=a.tgt;lbl=(f a.lbl)}   in   (*prend b graphe et a arc et rend b graph*) *)
+
+let flowgraph_from_ecart gr_init gr_ecart =
+	let final_graph = empty_graph in 
+	let f graph a = new_arc graph {src=a.src;tgt=a.tgt;lbl=(Option.get (find_arc gr_ecart a.tgt a.src)).lbl} 
+in e_fold gr_init f final_graph;;
