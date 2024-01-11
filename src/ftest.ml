@@ -34,13 +34,13 @@ let () =
   let graph_init = gmap graph int_of_string in
 
   (*Apply FordFulkerson to graph*)
-  let result = fordfulkerson graph_init source sink in
+  let resultTuple = fordfulkerson graph_init source sink in
 
   (*Print flow*)
-  Printf.printf "Final Flow : %d" (fst result); 
+  Printf.printf "Final Flow : %d" (fst resultTuple); 
 
-
-  let graphFlow = flowgraph_from_ecart graph_init (snd result) in
+  (*Convert ecart graph into flow graph*)
+  let graphFlow = flowgraph_from_ecart graph_init (snd resultTuple) in
 
   (*Convert final int graph to string graph*)
   let graph_final = gmap graphFlow string_of_int in
