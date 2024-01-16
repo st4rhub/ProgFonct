@@ -1,5 +1,5 @@
 open Graph
 
-val fordfulkerson : int graph -> id -> id -> (int*(int graph))
+val fordfulkerson : 'a graph -> id -> id -> ('a*('a graph))
 
-val flowgraph_from_ecart : int graph -> int graph -> int graph
+val flowgraph_from_ecart : 'a graph -> 'a graph -> 'a graph
