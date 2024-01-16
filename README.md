@@ -4,8 +4,15 @@ This GitHub repositery contains the Minimal acceptable project for the Functiona
 
 ## Features
 
--   Returns the maximum flow of a graph, given the sink and target nodes
+-   Returns the maximum flow of a graph, given sink and target nodes
 -   Writes what the final "max flow" graph looks like into an svg file, titled _outfile.svg_
+
+## Process of coding
+
+-   Writing auxiliary functions such as _minEcart_, _updateGraph_, _isCorrectArc_, etc...
+-   Writing the _findAugmentingPath_ function, which determines if there are possible augmenting paths within the graph, and if so, returns them
+-   Writing the _fordfulkerson_ function whichs implements the algorithm and returns the final deviation graph
+-   Writing the _flowgraphFromEcart_ function which converts the final deviation graph into a flow graph, so ti can be exported into an svg
 
 ## Installation
 
